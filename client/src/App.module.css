@@ -1,0 +1,15 @@
+.parent {
+  @apply border border-green-700 rounded-lg m-8 w-fit mx-auto py-5 px-16;
+}
+
+.title {
+  @apply text-3xl text-center font-bold mb-3;
+}
+
+.counter {
+  @apply text-center text-lg;
+}
+
+.button {
+  @apply rounded-lg m-2 block mx-auto bg-purple-500 px-14 py-1 text-sm bg-opacity-50 hover:bg-opacity-100 transition-all;
+}

@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "keywords": [
+    "graphql"
+  ],
+  "scripts": {
+    "start": "node ./dist/server.js",
+    "dev": "nodemon -L ./index.ts && tsc -w"
+},
+  "author": "barb",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^16.6.0",
+    "@types/express": "^4.17.13",
+    "@types/node": "^18.7.9",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
