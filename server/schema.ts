@@ -1,6 +1,30 @@
 import { buildSchema } from 'graphql'
 
+export type User = {
+  id: number
+  username: string
+  age: number
+  posts: Post[]
+}
 
+export type Post = {
+  id: number
+  title: string
+  content: string
+}
+
+export type UserInput = {
+  id?: number
+  username: string
+  age: number
+  posts?: Post[]
+}
+
+export type PostInput = {
+  id?: number
+  title: string
+  content: string
+}
 
 const schema = buildSchema(`
   type User {
@@ -34,7 +58,7 @@ const schema = buildSchema(`
   }
 
   type Mutation {
-    createUser(input: User): User
+    createUser(input: UserInput): User
   }
 `)
 
