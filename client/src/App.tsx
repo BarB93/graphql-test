@@ -1,7 +1,7 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import styles from './App.module.css'
-import { GET_ALL_USERS } from './query/users'
+import { GET_ALL_USERS, GET_ONE_USER } from './query/users'
 import { CREATE_USER } from './mutation/user'
 
 export type User = {
@@ -19,10 +19,15 @@ export type Post = {
 
 function App() {
   const [username, setUsername] = useState('')
-  const [age, setAge] = useState('')
+  const [age, setAge] = useState(0)
   const [users, setUsers] = useState<User[]>([])
 
-  const { data, loading, error } = useQuery(GET_ALL_USERS)
+  const { data, loading, error, refetch } = useQuery(GET_ALL_USERS)
+  const { data: oneUser, loading: loadingUser } = useQuery(GET_ONE_USER, {
+    variables: {
+      id: 1,
+    },
+  })
   const [createUser] = useMutation(CREATE_USER)
 
   useEffect(() => {
@@ -31,8 +36,27 @@ function App() {
     }
   }, [data])
 
-  const addUser = () => {
+  console.log('oneUser', oneUser)
 
+  const addUser = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    if (username && age) {
+      createUser({
+        variables: {
+          input: {
+            username,
+            age,
+          },
+        },
+      }).then(({ data }) => {
+        console.log(data)
+      })
+    }
+  }
+
+  const refetchUsers = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    refetch()
   }
 
   if (loading) return <h1>loading...</h1>
@@ -52,19 +76,19 @@ function App() {
         <input
           value={age}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            setAge(event.target.value)
+            setAge(+event.target.value)
           }}
           type='number'
           name='age'
         />
         <div className={styles.btns}>
-          <button>Создать</button>
-          <button>Получить</button>
+          <button onClick={addUser}>Создать</button>
+          <button onClick={refetchUsers}>Получить</button>
         </div>
       </form>
       <div>
         {users.map(user => (
-          <div className={styles.user}>
+          <div key={user.id} className={styles.user}>
             <ul>
               <li>
                 <span>ID:</span>

@@ -40,7 +40,13 @@ const root = {
     return users
   },
   getUser: ({ id }: { id: number }) => {
-    return users.find(user => user.id === id)
+    const user = users.find(user => {
+      console.log('user.id', user.id)
+      return user.id === id
+    })
+    console.log('in getUser', id, user)
+
+    return user
   },
   createUser({ input }: { input: UserInput }): User {
     const user = createUser(input)
